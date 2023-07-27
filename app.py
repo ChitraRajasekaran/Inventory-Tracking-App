@@ -26,6 +26,20 @@ def add_products():
     db.session.commit()
     return redirect(url_for('index'))
 
+@app.route('/products/<int:id>/edit', methods = ['GET','POST'])
+def edit_products(id):
+    # p_name = db.session.query(Product.name).filter(Product.id == id)
+    p_name = db.one_or_404(db.select(Product.name).filter(Product.id == id))
+    return render_template('edit.html',name = p_name, id=id)
+
+@app.route('/products/update', methods = ['GET','POST'])
+def update_products():
+    id = request.form.get('pid','')
+    name = request.form.get('pname','')
+    id_info = db.session.query(Product).filter(Product.id == id).one()
+    id_info.name = name
+    db.session.commit()
+    return redirect(url_for('index'))
 @app.route('/')
 def index():
     headers = ['ProductName','Actions']

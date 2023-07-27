@@ -1,15 +1,9 @@
 <html>
     <head>
         <title>Inventory Tracking System</title>
-        <style>
-            ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-            }
-        </style>
     </head>
     <body>
+        <h3>Inventory Tracking System</h3>
         <form method="post" action="/products/create" />
             <input type ="text" name="name" />
             <input type="submit" value="Add Product" />
@@ -25,10 +19,17 @@
             <tbody>
                 {% for d in tableData %}
                     <tr>
-                        <td> <input type ="checkbox" />{{d.name}}</td>
-                        <td><input type="submit" value="Edit" />
-                        <input type="submit" value="Update" />
-                        <input type="submit" value="Delete" /></td>
+                        <td> {{d.name}}</td>
+                        <form method = "get" action ="/products/{{d.id}}/edit" />
+                        <td>
+                        <input type="submit" value="Edit" />
+                        </td>
+                        </form>
+                        <form method ="post" action="/products/delete">
+                        <td>
+                        <input type="submit" value="Delete" />
+                        </td>
+                        </form>
                     </tr>
                 {% endfor %}
             </tbody>
