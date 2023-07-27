@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>Inventory Tracking System</title>
+    </head>
+    <body>
+        <h3>Location Listings</h3>
+        <form method="post" action="/locations/create" />
+            <input type ="text" name="name" />
+            <input type="submit" value="Add location" />
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    {% for header in headers %}
+                        <th>{{header}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in tableData %}
+                    <tr>
+                        <td> {{d.name}}</td>
+                        <form method = "get" action ="/locations/{{d.id}}/edit" />
+                        <td>
+                        <input type="submit" value="Edit" />
+                        </td>
+                        </form>
+                        <form method ="post" action="/locations/{{d.id}}/delete">
+                        <td>
+                        <input type="submit" value="Delete" 
+                        onclick="return confirm('Are you sure you want to delete this entry')" />
+                        </td>
+                        </form>
+                    </tr>
+                {% endfor %}
+            </tbody>
+    </body>
+</html>
+
