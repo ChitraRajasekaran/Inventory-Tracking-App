@@ -22,6 +22,19 @@ class Location(db.Model):
     def __repr__(self):
         return f'<Location {self.id} {self.name}'
 
+class Inventory(db.Model):
+    __tablename__ = 'inventory'
+    id = db.Column(db.Integer, primary_key = True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'))
+    qty = db.Column(db.Integer)
+    location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'))
+    prod = db.relationship('Product', foreign_keys=product_id)
+    Loc = db.relationship('Location', foreign_keys=location_id)
+    def __repr__(self):
+        return f'<Inventory {self.id}'
+
+#All inventory routes
+
 #All location routes
 
 @app.route('/locations/create', methods=["POST"])
@@ -57,24 +70,6 @@ def delete_locations(id):
 def locations():
     headers = ['LocationName','Actions']
     return render_template('locations.html', headers=headers,tableData = Location.query.order_by("name").all())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #All product routes
