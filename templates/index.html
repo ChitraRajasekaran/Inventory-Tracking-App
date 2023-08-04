@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>Inventory Tracker</title>
+    </head>
+    <body>
+        <h3>Inventory Tracker</h3>
+        <table>
+            <thead>
+                <tr>
+                    {% for header in headers %}
+                        <th>{{header}}</th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                {% for d in tableData %}
+                    <tr>
+                        <td><center>{{d.id}}</center></td>
+                        <td><center>{{d.product_id}}</center></td>
+                        <td><center>{{d.product_qty}}</center></td>
+                        <td><center>{{d.location_id}}</center></td>
+                    </tr>
+                {% endfor %}
+            </tr>
+    </body>
+</html>
+
+
+
+
+

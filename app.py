@@ -1,6 +1,11 @@
 from flask import Flask, render_template,request,redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
+# import sqlalchemy as sa
+# from sqlalchemy import orm 
+# from sqlalchemy import ForeignKey
 from flask_migrate import Migrate
+
+# BASE = orm.declarative_base()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://chitrarajasekaran@localhost:5432/inventoryapp'
@@ -11,13 +16,14 @@ app.app_context().push()
 
 class Product(db.Model):
     __tablename__ = 'products'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
+
     def __repr__(self):
         return f'<Product {self.id} {self.name}'
 class Location(db.Model):
     __tablename__ = 'locations'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
     def __repr__(self):
         return f'<Location {self.id} {self.name}'
@@ -25,16 +31,19 @@ class Location(db.Model):
 class Inventory(db.Model):
     __tablename__ = 'inventory'
     id = db.Column(db.Integer, primary_key = True)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'))
-    qty = db.Column(db.Integer)
-    location_id = db.Column(db.Integer, db.ForeignKey('locations.location_id'))
-    prod = db.relationship('Product', foreign_keys=product_id)
-    Loc = db.relationship('Location', foreign_keys=location_id)
+    product_id = db.Column(db.Integer,nullable=False)
+    product_qty = db.Column(db.Integer)
+    location_id = db.Column(db.Integer,nullable=False)
+
     def __repr__(self):
-        return f'<Inventory {self.id}'
+        return f'<Inventory {self.inventory_id}'
 
+db.create_all()
 #All inventory routes
-
+@app.route('/')
+def display_inventory():
+    headers = ['Id','Product_Id', 'Product_Qty','Location_Id']
+    return render_template('index.html', headers=headers,tableData = Inventory.query.order_by("id").all())
 #All location routes
 
 @app.route('/locations/create', methods=["POST"])
