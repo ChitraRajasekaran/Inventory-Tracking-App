@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Add products</title>
+        <h3>Add products</h3>
+    </head>
+    <table>
+        <thead>  
+            <tr>
+                {% for header in headers %}
+                <th><center>{{header}}</center></th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <form method="post" action="/products/save">
+                    <td><input type = 'text' value = "{{name}}" name = "name" ></td>
+                    <td><input type="submit" value="Save"> </td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+</html>

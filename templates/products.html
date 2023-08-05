@@ -4,10 +4,9 @@
     </head>
     <body>
         <h3>Product Listings</h3>
-        <form method="post" action="/products/create" />
-            <input type ="text" name="name" />
-            <input type="submit" value="Add Product" />
-        </form>
+            <form method="get" action="/products/create" />
+                <input type="submit" value="Add Product" />
+            </form>
         <table>
             <thead>
                 <tr>
@@ -20,6 +19,7 @@
                 {% for d in tableData %}
                     <tr>
                         <td> {{d.name}}</td>
+                        <td> <center>{{d.inventory}}</center></td>
                         <form method = "get" action ="/products/{{d.id}}/edit" />
                         <td>
                         <input type="submit" value="Edit" />

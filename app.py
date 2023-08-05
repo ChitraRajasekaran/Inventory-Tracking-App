@@ -31,9 +31,9 @@ class Location(db.Model):
 class Inventory(db.Model):
     __tablename__ = 'inventory'
     id = db.Column(db.Integer, primary_key = True)
-    product_id = db.Column(db.Integer,nullable=False)
-    product_qty = db.Column(db.Integer)
-    location_id = db.Column(db.Integer,nullable=False)
+    product_id = db.Column(db.Integer,nullable = False)
+    product_qty = db.Column(db.Integer,nullable = True)
+    location_id = db.Column(db.Integer,nullable = True)
 
     def __repr__(self):
         return f'<Inventory {self.inventory_id}'
@@ -43,6 +43,7 @@ db.create_all()
 @app.route('/')
 def display_inventory():
     headers = ['Id','Product_Id', 'Product_Qty','Location_Id']
+
     return render_template('index.html', headers=headers,tableData = Inventory.query.order_by("id").all())
 #All location routes
 
@@ -82,11 +83,22 @@ def locations():
 
 
 #All product routes
-@app.route('/products/create', methods=["POST"])
+
+@app.route('/products/create', methods=['GET'])
+def create_products():
+    headers = ['ProductName','Actions']
+    return render_template('create_products.html',headers=headers)
+
+@app.route('/products/save', methods=['GET','POST'])
 def add_products():
+    headers = ['ProductName','Product_Qty','Actions']
     name = request.form.get('name', '')
-    products = Product(name=name)
-    db.session.add(products)
+    prod = Product(name=name)
+    db.session.add(prod)
+    db.session.commit()
+    id = db.one_or_404(db.select(Product.id).filter(Product.name == name))
+    inv = Inventory(product_id = id)
+    db.session.add(inv)
     db.session.commit()
     return redirect(url_for('products'))
 
@@ -113,5 +125,5 @@ def delete_products(id):
 
 @app.route('/products')
 def products():
-    headers = ['ProductName','Actions']
+    headers = ['ProductName','Product_Qty','Actions']
     return render_template('products.html', headers=headers,tableData = Product.query.order_by("name").all())

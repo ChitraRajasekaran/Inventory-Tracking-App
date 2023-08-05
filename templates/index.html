@@ -4,6 +4,7 @@
     </head>
     <body>
         <h3>Inventory Tracker</h3>
+        <div>
         <table>
             <thead>
                 <tr>
@@ -21,6 +22,14 @@
                     </tr>
                 {% endfor %}
             </tr>
+        </thead>
+        </table>
+        </div>
+        <div>
+         <form method="get" action="/products" />
+            <input type="submit" value="View Products" />
+        </form> 
+        </div>
     </body>
 </html>
 
