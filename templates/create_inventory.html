@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Add inventory</title>
+        <h3>Add inventory</h3>
+    </head>
+    <table>
+        <thead>  
+            <tr>
+                {% for header in headers %}
+                <th><center>{{header}}</center></th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <form method="post" action="/inventory/save">
+                        <td><input type = 'text' value = "{{product_qty}}" name = "product_qty" ></td>
+                        <td><input type = 'text' value = "{{location_id}}" name = "location_id" ></td>
+                        <td><input type="submit" value="Save"> </td>
+                    </form>
+                </tr>
+        </tbody>
+    </table>
+</html>

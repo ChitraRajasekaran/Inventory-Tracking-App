@@ -19,7 +19,7 @@
                 {% for d in tableData %}
                     <tr>
                         <td> {{d.name}}</td>
-                        <td> <center>{{d.inventory}}</center></td>
+                        <td> <center>{{d.product_qty}}</center></td>
                         <form method = "get" action ="/products/{{d.id}}/edit" />
                         <td>
                         <input type="submit" value="Edit" />
