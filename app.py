@@ -1,5 +1,6 @@
 from flask import Flask, render_template,request,redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import exists
 # import sqlalchemy as sa
 # from sqlalchemy import orm 
 # from sqlalchemy import ForeignKey
@@ -37,8 +38,6 @@ class Inventory(db.Model):
 
     def __repr__(self):
         return f'<Inventory {self.inventory_id}'
-    
-    #86792192
 
 db.create_all()
 #All inventory routes
@@ -46,27 +45,35 @@ db.create_all()
 
 @app.route('/inventory/create', methods=['GET'])
 def create_inventory():
-    headers = ['Product_Id', 'Product_Qty','Location_Id']
-    return render_template('create_inventory.html',headers=headers)
+    headers = ['Products', 'Product_Qty','Location_Id']
+    # products = db.session.query(Product.name,Product.id).join(Inventory,Inventory.product_id == Product.id)
+    products = db.session.query(Product.name,Product.id).all()
+    return render_template('create_inventory.html',headers=headers,products=products)
 
 @app.route('/inventory/save', methods=['GET','POST'])
 def add_inventory():
-    headers = ['Product_Qty','Location_Id']
+    headers = ['Product_id','Product_Qty','Location_Id']
+    product_id = request.form.get('product_id','')
     product_qty = request.form.get('product_qty', '')
-    location_id = request.form.get('location_id', '')
-    inv = Inventory(product_qty=product_qty,location_id=location_id )
-    db.session.add(inv)
-    db.session.commit()
-    # id = db.one_or_404(db.select(Inventory.product_id).filter(Inventory.product_id == product_id))
-    # prod = Product(id = id)
-    # db.session.add(prod)
-    # db.session.commit()
+    location_id = request.form.get('location_id','')
+    
+    if db.session.query(Inventory.query.filter(Inventory.product_id == product_id).exists()).scalar():
+        inventory = db.session.query(Inventory).filter(Inventory.product_id == product_id).one()
+        inventory.product_qty = product_qty
+        # inventory.location_id = location_id
+        db.session.commit()
+    else:
+        inventory = Inventory(product_id=product_id,product_qty=product_qty)
+        db.session.add(inventory)
+        db.session.commit()
     return redirect(url_for('inventory'))
+    
 
 @app.route('/inventory/<int:id>/edit', methods = ['GET','POST'])
 def edit_inventory(id):
-    p_qty = db.one_or_404(db.select(Inventory.product_qty).filter(Inventory.id == id))
-    return render_template('update_inventory.html',name = p_qty, id=id)
+    headers = ['Product_Name', 'Product_Qty']
+    products = db.session.query(Product.id,Product.name,Inventory.product_qty).join(Inventory,Inventory.product_id==Product.id).filter(Inventory.id == id)
+    return render_template('update_inventory.html',headers=headers, products = products, id=id)
 
 @app.route('/inventory/update', methods = ['GET','POST'])
 def update_inventory():
@@ -86,8 +93,9 @@ def delete_inventory(id):
 
 @app.route('/')
 def inventory():
-    headers = ['Id','Product_Id', 'Product_Qty','Location_Id']
-    return render_template('index.html', headers=headers,tableData = Inventory.query.order_by("id").all())
+    headers = ['Id','Product_Name', 'Product_Qty','Location_Id']
+    products = db.session.query(Product.name,Product.id,Inventory.id,Inventory.product_qty,Inventory.location_id).join(Inventory,Inventory.product_id == Product.id).order_by(Inventory.id)
+    return render_template('index.html', headers=headers,tableData = products)
 
 
 #All product routes
@@ -140,7 +148,7 @@ def products():
 
 
 
-
+# THE BELOW ROUTE NEED CHANGES ALTOGETHER TO MATCH WITH THE FUNCTIONALITY CHANGES
 #All location routes
 
 @app.route('/locations/create', methods=["POST"])

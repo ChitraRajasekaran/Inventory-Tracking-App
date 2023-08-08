@@ -14,6 +14,13 @@
         <tbody>
                 <tr>
                     <form method="post" action="/inventory/save">
+                        <td>
+                            <select name = "product_id">
+                                {% for product in products %}
+                                <option value = "{{product.id}}">{{product.name}}</option> 
+                                {% endfor %}
+                            </select>
+                        </td>
                         <td><input type = 'text' value = "{{product_qty}}" name = "product_qty" ></td>
                         <td><input type = 'text' value = "{{location_id}}" name = "location_id" ></td>
                         <td><input type="submit" value="Save"> </td>
@@ -21,4 +28,7 @@
                 </tr>
         </tbody>
     </table>
+    <form method="get" action="/" />
+    <input type="submit" value="View Inventory" />
+    </form>
 </html>

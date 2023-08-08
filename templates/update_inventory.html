@@ -1,6 +1,32 @@
-<p> welcome to inventory update page</p>
-<form method="post" action="/inventory/update" />
-   <label> <B>Product Quantity</B> </label> <input type ="text" value = "{{product_qty}}" name = "product_qty" />
-    <input hidden=true type ="text" value = "{{id}}" name = "pid" />
-    <input type="submit" value="Update" />
-</form>
+<html>
+    <body>
+        <h3> welcome to inventory update page</h3>
+        <table>
+            <thead>  
+                <tr>
+                    {% for header in headers %}
+                    <th>{{header}}</center>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <form method="post" action="/inventory/update" />
+                    <td>
+                        <option value = "{{product.name}}">{{product.name}}</option> 
+                    </td>
+                    <td>
+                        <input type ="text" value = "{{product_qty}}" name = "product_qty" />
+                    </td>
+                    <td>
+                        <input hidden=true type ="text" value = "{{id}}" name = "pid" />
+                    </td>
+                    <td>
+                    <input type="submit" value="Update" />
+                    </td>
+                </form>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>  
+</html>

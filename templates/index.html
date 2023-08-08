@@ -17,23 +17,26 @@
                 </tr>
                 <tr>
                 {% for d in tableData %}
-                    <tr>
-                        <td><center>{{d.id}}</center></td>
-                        <td><center>{{d.product_id}}</center></td>
-                        <td><center>{{d.product_qty}}</center></td>
-                        <td><center>{{d.location_id}}</center></td>
-                        <form method = "get" action ="/inventory/{{d.id}}/edit" />
-                        <td>
-                        <input type="submit" value="Edit" />
-                        </td>
-                        </form>
-                        <form method ="post" action="/inventory/{{d.id}}/delete">
-                        <td>
-                        <input type="submit" value="Delete" 
-                        onclick="return confirm('Are you sure you want to delete this entry')" />
-                        </td>
-                        </form>
-                    </tr>
+                        <tr>
+                            <td><center>{{d.id}}</center></td>
+                            <td>
+                                <option value = "{{d.product_id}}">{{d.name}}</option>
+                            </td>
+                            <td><center>{{d.product_qty}}</center></td>
+                            <td><center>{{d.location_id}}</center></td>
+                            <form method = "get" action ="/inventory/{{d.id}}/edit" />
+                            <td>
+                            <input type="submit" value="Edit" />
+                            </td>
+                            </form>
+                            <form method ="post" action="/inventory/{{d.id}}/delete">
+                            <td>
+                            <input type="submit" value="Delete" 
+                            onclick="return confirm('Are you sure you want to delete this entry')" />
+                            </td>
+                            </form>
+                        </tr>
+
                 {% endfor %}
             </tr>
         </thead>
