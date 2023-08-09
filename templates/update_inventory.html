@@ -19,8 +19,16 @@
                         <input type ="text" value = "{{product_qty}}" name = "product_qty" />
                     </td>
                     <td>
+                        <select name = "location_id">
+                            {% for location in locations %}
+                            <option value = "{{location.id}}">{{location.name}}</option> 
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
                         <input hidden=true type ="text" value = "{{id}}" name = "pid" />
                     </td>
+                </td>
                     <td>
                     <input type="submit" value="Update" />
                     </td>

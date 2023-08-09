@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Add locations</title>
+        <h3>Add locations</h3>
+    </head>
+    <table>
+        <thead>  
+            <tr>
+                {% for header in headers %}
+                <th><center>{{header}}</center></th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <form method="post" action="/locations/save">
+                    <td><input type = 'text' value = "{{name}}" name = "name" ></td>
+                    <td><input type="submit" value="Save"> </td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+</html>

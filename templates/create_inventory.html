@@ -22,7 +22,13 @@
                             </select>
                         </td>
                         <td><input type = 'text' value = "{{product_qty}}" name = "product_qty" ></td>
-                        <td><input type = 'text' value = "{{location_id}}" name = "location_id" ></td>
+                        <td>
+                            <select name = "location_id">
+                                {% for location in locations %}
+                                <option value = "{{location.id}}">{{location.name}}</option> 
+                                {% endfor %}
+                            </select>
+                        </td> 
                         <td><input type="submit" value="Save"> </td>
                     </form>
                 </tr>

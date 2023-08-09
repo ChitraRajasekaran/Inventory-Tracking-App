@@ -1,13 +1,12 @@
 <html>
     <head>
-        <title>Inventory Tracking System</title>
+        <title>Location Listings</title>
     </head>
     <body>
         <h3>Location Listings</h3>
-        <form method="post" action="/locations/create" />
-            <input type ="text" name="name" />
-            <input type="submit" value="Add location" />
-        </form>
+        <form method="get" action="/locations/create" />
+        <input type="submit" value="Add Location" />
+    </form>
         <table>
             <thead>
                 <tr>
@@ -34,6 +33,13 @@
                     </tr>
                 {% endfor %}
             </tbody>
+        </table>
     </body>
+<form method="get" action="/" />
+    <input type="submit" value="View Inventory" />
+</form>
+<form method="get" action="/products" />
+    <input type="submit" value="View Products" />
+</form>
 </html>
 

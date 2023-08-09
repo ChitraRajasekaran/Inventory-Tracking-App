@@ -18,18 +18,20 @@
                 <tr>
                 {% for d in tableData %}
                         <tr>
-                            <td><center>{{d.id}}</center></td>
+                            <td><center>{{d.Inventory_id}}</center></td>
                             <td>
-                                <option value = "{{d.product_id}}">{{d.name}}</option>
+                                <option value = "{{d.Product_id}}">{{d.Product_name}}</option>
                             </td>
                             <td><center>{{d.product_qty}}</center></td>
-                            <td><center>{{d.location_id}}</center></td>
-                            <form method = "get" action ="/inventory/{{d.id}}/edit" />
                             <td>
-                            <input type="submit" value="Edit" />
+                                <option value = "{{d.Location_id}}">{{d.Location_name}}</option>
                             </td>
+                            <form method = "get" action ="/inventory/{{d.Inventory_id}}/edit" />
+                                <td>
+                                    <input type="submit" value="Edit" />
+                                </td>
                             </form>
-                            <form method ="post" action="/inventory/{{d.id}}/delete">
+                            <form method ="post" action="/inventory/{{d.Inventory_id}}/delete">
                             <td>
                             <input type="submit" value="Delete" 
                             onclick="return confirm('Are you sure you want to delete this entry')" />
@@ -47,6 +49,9 @@
             <input type="submit" value="View Products" />
         </form> 
         </div>
+        <form method="get" action="/locations" />
+            <input type="submit" value="View Locations" />
+        </form>
     </body>
 </html>
 
