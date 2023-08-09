@@ -99,9 +99,11 @@ def delete_inventory(id):
 @app.route('/')
 def inventory():
     headers = ['Id','Product_Name', 'Product_Qty','Location_Name']
-    # only has products and inventory - products = db.session.query(Product.name,Product.id,Inventory.id,Inventory.product_qty,Inventory.location_id).join(Inventory,Inventory.product_id == Product.id).order_by(Inventory.id)
+    #products = db.session.query(Product.name,Product.id,Inventory.id,Inventory.product_qty,Inventory.location_id).join(Inventory,Inventory.product_id == Product.id).order_by(Inventory.id)
     #the below has inventory,products and locations joined
-    products = db.session.query(Inventory.id.label('Inventory_id'),Inventory.product_qty,Inventory.location_id,Product.name.label('Product_name'),Product.id.label('Product_id'),Location.id.label('Location_id'),Location.name.label('Location_name')).join(Product,Inventory.product_id == Product.id).join(Location,Inventory.location_id == Location.id).order_by(Inventory.id)
+    products = db.session.query(Inventory.id.label('Inventory_id'),Inventory.product_qty,Inventory.location_id,
+                                Product.name.label('Product_name'),Product.id.label('Product_id'),
+                                Location.id.label('Location_id'),Location.name.label('Location_name')).join(Product,Inventory.product_id == Product.id).join(Location,Inventory.location_id == Location.id).order_by(Inventory.id).all()
     return render_template('index.html', headers=headers,tableData = products)
 
 
